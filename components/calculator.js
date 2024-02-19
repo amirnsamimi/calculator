@@ -34,9 +34,12 @@ const operatorInput = (oper) => {
       oper === "x" ||
       oper === "%" 
     ) {
-    
+   
       operator.push(oper);
-      calculatorOperator(oper,history[history.length-1]);
+ 
+        calculatorOperator(oper);
+      
+ 
     } else if (oper === "=") {
         calculatorOperator(operator[operatorEndIndex]);
     } else {
@@ -45,14 +48,15 @@ const operatorInput = (oper) => {
   }
 };
 
-const calculatorOperator = (userOperator,num) => {
+const calculatorOperator = (userOperator) => {
   let historyEndIndex = history.length - 1;
   let sum;
 
   switch (userOperator) {
     case "+":
- 
-            sum = output + num
+        if( operator.length > 1){
+            output += history[historyEndIndex]
+        }
       break;
       case "-":
         if(operator.length > 0){
@@ -88,8 +92,10 @@ caclulatorInput(15);
 caclulatorInput(24);
 operatorInput("+");
 caclulatorInput(15);
-
-
+operatorInput("+");
+caclulatorInput(15);
+caclulatorInput(35);
+operatorInput("+");
 
 
 console.log(history, operator, output);
