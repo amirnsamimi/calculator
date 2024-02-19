@@ -1,6 +1,6 @@
-let history = [1, "+", 2, 3, "+", 4, 7];
-let operator;
-let output = history[history.length - 1]; //keep here for out put use in function
+let history = [];
+let operator = [];
+let output = 0;
 
 let input = {
   int: 0,
@@ -10,33 +10,73 @@ let input = {
   },
 };
 
+
+//RETRIVING NUMBER DATA - COMPLETED
 const caclulatorInput = (number) => {
+  if (typeof number === "number" ){
   input.int = number;
+  history.push(input.totalNumber());
+  } 
+  if( operator.length === 0){
+    output = input.totalNumber();
+    history = [input.totalNumber()];
+  }
 };
+
+const operatorInput = (oper) => {
+    let operatorEndIndex = operator.length - 1;
+
+  if (typeof oper === "string") {
+    if (
+      oper === "+" ||
+      oper === "-" ||
+      oper === "/" ||
+      oper === "x" ||
+      oper === "%" 
+    ) {
+   
+      operator.push(oper);
+ 
+        calculatorOperator(oper);
+      
+ 
+    } else if (oper === "=") {
+        calculatorOperator(operator[operatorEndIndex]);
+    } else {
+      throw new Error("Fucntion Not Exist.");
+    }
+  }
+};
+
 const calculatorOperator = (userOperator) => {
-  operator = userOperator;
+  let historyEndIndex = history.length - 1;
+  let sum;
+
   switch (userOperator) {
     case "+":
-      output = input1.totalNumber() + input2.totalNumber();
+        if( operator.length > 1){
+            output += history[historyEndIndex]
+        }
       break;
-    case "-":
-      output = input1.totalNumber() - input2.totalNumber();
+      case "-":
+        if(operator.length > 0){
+            sum = output - history[historyEndIndex]
+         }else{
+            sum = history[historyEndIndex] - history[historyEndIndex-1]
+         }        
+         output -= sum
       break;
     case "%":
-      output = input1.totalNumber() / 100;
+      output = history[historyEndIndex - 2] / 100;
       break;
     case "x":
-      output = input1.totalNumber() * input2.totalNumber();
+      output = history[historyEndIndex - 2] + history[historyEndIndex];
       break;
     case "+/-":
-      if (input1 !== null && userOperator === undefined) {
-        input1 = input1 * -1;
-      } else {
-        input2 = input2 * -1;
-      }
+      input = history[historyEndIndex - 2] *= -1;
       break;
     case "/":
-      output = input1 / input2;
+      output = history[historyEndIndex - 2] / history[historyEndIndex];
       break;
     case ".":
 
@@ -45,5 +85,17 @@ const calculatorOperator = (userOperator) => {
   }
 };
 
-caclulatorInput(2);
-calculatorOperator("+");
+
+
+caclulatorInput(6);
+caclulatorInput(15);
+caclulatorInput(24);
+operatorInput("+");
+caclulatorInput(15);
+operatorInput("+");
+caclulatorInput(15);
+caclulatorInput(35);
+operatorInput("+");
+
+
+console.log(history, operator, output);
